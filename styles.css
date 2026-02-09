@@ -1,0 +1,264 @@
+:root {
+   --brazil-yellow: #ffcc00;
+   --lime-green: #00ff00;
+   --bg-blue: #001f4d;
+   --white: #ffffff;
+}
+
+body {
+   background-color: var(--bg-blue);
+   background-image:
+      linear-gradient(45deg, #001a40 25%, transparent 25%),
+      linear-gradient(-45deg, #001a40 25%, transparent 25%);
+   background-size: 60px 60px;
+   font-family: "Ubuntu", sans-serif;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 0;
+   overflow-x: hidden;
+}
+
+/* --- HEADER --- */
+.header-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 20px;
+   margin: 20px 0;
+}
+
+.logo-header {
+   width: 60px;
+   filter: drop-shadow(0 0 8px var(--lime-green));
+}
+
+h1 {
+   display: none;
+   color: var(--lime-green);
+   font-size: 3rem;
+   text-transform: uppercase;
+   text-shadow: 4px 4px 0px var(--bg-blue);
+}
+
+/* --- CAMPO 3D --- */
+#container-estadio {
+   perspective: 1500px; /* Aumentado para melhor profundidade */
+   width: 100%;
+   display: none;
+   justify-content: center;
+   padding-bottom: 80px;
+}
+
+#campo {
+   /* Textura de Gramado Realista */
+   background: repeating-linear-gradient(
+      to bottom,
+      #3a8d3c 0px,
+      #3a8d3c 60px,
+      /* Faixa verde escura */ #45a049 60px,
+      #45a049 120px /* Faixa verde clara */
+   );
+
+   /* Marcações do Campo (Linhas de Cal) */
+   background-image: 
+      /* Círculo Central */
+      radial-gradient(
+         circle at 50% 100%,
+         transparent 80px,
+         var(--white) 80px,
+         var(--white) 83px,
+         transparent 83px
+      ),
+      /* Grande Área Superior (Ataque) */
+      linear-gradient(to right, var(--white) 3px, transparent 3px),
+      linear-gradient(to left, var(--white) 3px, transparent 3px),
+      /* Padrão de gramado (combinado com o gradiente acima) */
+      repeating-linear-gradient(
+            to bottom,
+            #3a8d3c 0,
+            #3a8d3c 60px,
+            #45a049 60px,
+            #45a049 120px
+         );
+
+   width: 95vw;
+   max-width: 700px;
+   height: 850px;
+   transform: rotateX(25deg);
+   border: 8px solid var(--white);
+   border-radius: 15px;
+   box-shadow:
+      0 80px 100px rgba(0, 0, 0, 0.7),
+      inset 0 0 100px rgba(0, 0, 0, 0.3); /* Sombra interna para profundidade */
+
+   display: flex;
+   flex-direction: column-reverse;
+   padding: 10px;
+   position: relative;
+   overflow: hidden;
+}
+
+#campo::before {
+   content: "";
+   position: absolute;
+   top: 50%;
+   left: 0;
+   width: 100%;
+   height: 3px;
+   background-color: var(--white);
+   opacity: 0.8;
+}
+
+#campo::after {
+   content: "";
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 60%;
+   height: 120px;
+   border: 3px solid var(--white);
+   border-bottom: none;
+   opacity: 0.8;
+}
+/* Cada section é uma linha do campo (GOL, DEF, VOL, MEI, ATA) */
+section {
+   flex: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   position: relative; /* Necessário para o posicionamento absoluto das laterais */
+}
+
+/* --- LINHA DE JOGADORES --- */
+ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   display: flex;
+   flex-direction: row;
+   justify-content: center; /* Centraliza zagueiros e volantes */
+   align-items: center;
+   width: 100%;
+   height: 100%;
+   gap: 15px; /* Espaço horizontal entre jogadores centrais */
+}
+
+/* --- POSICIONAMENTO FIXO NAS LATERAIS --- */
+
+/* Força laterais e pontas para as extremidades da mesma section */
+li.lateral-esquerdo,
+li.ponta-esquerda {
+   position: absolute;
+   left: 5%;
+}
+
+li.lateral-direito,
+li.ponta-direita {
+   position: absolute;
+   right: 5%;
+}
+
+/* Zagueiros, Volantes, Meias e Atacantes seguem o fluxo centralizado */
+li.zagueiro,
+li.volante,
+li.meia,
+li.atacante,
+li.goleiro {
+   position: relative;
+}
+
+/* --- CARDS REDUZIDOS PARA CABER TUDO --- */
+li {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   perspective: 1000px;
+   animation: surgindo 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+   z-index: 2;
+}
+
+.foto-player {
+   width: 65px; /* Reduzi para 65px para caber os 4 defensores com folga */
+   height: 65px;
+   border: 3px solid var(--lime-green);
+   border-radius: 50%;
+   overflow: hidden;
+   background-color: #222;
+   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+   transform-style: preserve-3d;
+   transform: rotateX(-25deg); /* Endireita a foto no campo inclinado */
+}
+
+li:hover .foto-player {
+   transform: rotateX(-25deg) rotateY(360deg) scale(1.2);
+   border-color: var(--white);
+   z-index: 10;
+}
+
+.foto-player img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+
+li span {
+   color: #003399;
+   font-weight: 900;
+   font-size: 0.7rem; /* Fonte menor para não poluir */
+   text-transform: uppercase;
+   margin-top: 5px;
+   background: rgba(255, 255, 255, 0.95);
+   padding: 2px 6px;
+   border-radius: 3px;
+   transform: rotateX(-25deg);
+   white-space: nowrap;
+}
+
+/* --- ANIMAÇÕES --- */
+#splash-screen {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: var(--bg-blue);
+   display: none;
+   justify-content: center;
+   align-items: center;
+   z-index: 9999;
+}
+
+#logo-3d {
+   width: 200px;
+   animation: zoomRotate 2.2s ease-in-out forwards;
+}
+
+@keyframes zoomRotate {
+   0% {
+      transform: scale(0) rotateY(0deg);
+      opacity: 0;
+   }
+   50% {
+      transform: scale(1.2) rotateY(720deg);
+      opacity: 1;
+   }
+   100% {
+      transform: scale(8);
+      opacity: 0;
+   }
+}
+
+@keyframes surgindo {
+   from {
+      transform: scale(0) translateZ(-500px);
+      opacity: 0;
+   }
+   to {
+      transform: scale(1) translateZ(0);
+      opacity: 1;
+   }
+}
