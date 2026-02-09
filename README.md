@@ -1,5 +1,7 @@
 # 🇧🇷 Tactical Board 3D - Seleção Brasileira
 
+![Imagem de demonstração](./capture.png)
+
 Este projeto é uma aplicação interativa desenvolvida para o meu portfólio pessoal, simulando os quadros táticos de alta fidelidade utilizados em transmissões esportivas como as da **TNT Sports** e do **GE**. Ele permite a escalação dinâmica de jogadores em um campo com perspectiva 3D realista.
 
 ## 🚀 Tecnologias e Conceitos Aplicados
